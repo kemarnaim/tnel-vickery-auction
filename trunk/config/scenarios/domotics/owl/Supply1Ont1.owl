@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:domotics1="http://localhost/OWL/domotics1.owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns="http://www.owl-ontologies.com/2007/12/11/Ontology1197393639.owl#"
+  xml:base="http://www.owl-ontologies.com/2007/12/11/Ontology1197393639.owl">
+  <owl:Ontology rdf:about="">
+    <owl:imports rdf:resource="http://localhost/OWL/domotics1.owl"/>
+  </owl:Ontology>
+  <rdf:Property rdf:about="http://localhost/OWL/domotics1.owl#hasWireless"/>
+  <rdf:Property rdf:about="http://localhost/OWL/domotics1.owl#visionAngle"/>
+  <rdf:Property rdf:about="http://localhost/OWL/domotics1.owl#visionAngle_pref"/>
+  <rdf:Property rdf:about="http://localhost/OWL/domotics1.owl#lensSize"/>
+  <rdf:Property rdf:about="http://localhost/OWL/domotics1.owl#hasMicro"/>
+  <rdf:Property rdf:about="http://localhost/OWL/domotics1.owl#hasMicro_pref"/>
+  <rdf:Property rdf:about="http://localhost/OWL/domotics1.owl#hasWireless_pref"/>
+  <rdf:Property rdf:about="http://localhost/OWL/domotics1.owl#lensSize_pref"/>
+
+  <domotics1:Command rdf:ID="Comando">
+    <domotics1:price rdf:datatype="http://www.w3.org/2001/XMLSchema#float">21.0</domotics1:price>
+    <domotics1:price rdf:datatype="http://www.w3.org/2001/XMLSchema#float">23.0</domotics1:price>
+    <domotics1:price_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">23.0</domotics1:price_pref>
+    <domotics1:reach rdf:datatype="http://www.w3.org/2001/XMLSchema#string">30m</domotics1:reach>
+    <domotics1:reach_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#string">30m</domotics1:reach_pref>
+    <domotics1:code rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</domotics1:code>
+    <domotics1:code_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">false</domotics1:code_pref>
+	<domotics1:delivery rdf:datatype="http://www.w3.org/2001/XMLSchema#int">14</domotics1:delivery>    
+	<domotics1:delivery rdf:datatype="http://www.w3.org/2001/XMLSchema#int">21</domotics1:delivery>	
+	<domotics1:delivery_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#int">21</domotics1:delivery_pref>
+	<domotics1:quantity rdf:datatype="http://www.w3.org/2001/XMLSchema#int">180000</domotics1:quantity>    
+	<domotics1:quantity rdf:datatype="http://www.w3.org/2001/XMLSchema#int">900000</domotics1:quantity>	
+	<domotics1:quantity_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#int">270000</domotics1:quantity_pref>
+  </domotics1:Command>
+
+  <domotics1:Command rdf:ID="Comando_Encriptado">
+    <domotics1:price rdf:datatype="http://www.w3.org/2001/XMLSchema#float">48.0</domotics1:price>
+    <domotics1:price rdf:datatype="http://www.w3.org/2001/XMLSchema#float">62.0</domotics1:price>
+    <domotics1:price_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">62.0</domotics1:price_pref>
+    <domotics1:reach rdf:datatype="http://www.w3.org/2001/XMLSchema#string">50m</domotics1:reach>
+    <domotics1:reach_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#string">50m</domotics1:reach_pref>
+    <domotics1:code rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</domotics1:code>
+    <domotics1:code_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</domotics1:code_pref>
+	<domotics1:delivery rdf:datatype="http://www.w3.org/2001/XMLSchema#int">14</domotics1:delivery>    
+	<domotics1:delivery rdf:datatype="http://www.w3.org/2001/XMLSchema#int">21</domotics1:delivery>	
+	<domotics1:delivery_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#int">21</domotics1:delivery_pref>
+	<domotics1:quantity rdf:datatype="http://www.w3.org/2001/XMLSchema#int">180000</domotics1:quantity>    
+	<domotics1:quantity rdf:datatype="http://www.w3.org/2001/XMLSchema#int">900000</domotics1:quantity>	
+	<domotics1:quantity_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#int">270000</domotics1:quantity_pref>
+  </domotics1:Command>
+    
+  <domotics1:Switch rdf:ID="SimpleInterruptor">
+    <domotics1:price rdf:datatype="http://www.w3.org/2001/XMLSchema#float">30.0</domotics1:price>
+    <domotics1:price rdf:datatype="http://www.w3.org/2001/XMLSchema#float">90.0</domotics1:price>
+    <domotics1:price_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#float">60.0</domotics1:price_pref>
+    <domotics1:number_button rdf:datatype="http://www.w3.org/2001/XMLSchema#string">one</domotics1:number_button>
+    <domotics1:number_button rdf:datatype="http://www.w3.org/2001/XMLSchema#string">two</domotics1:number_button>
+    <domotics1:number_button_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#string">one</domotics1:number_button_pref>
+	<domotics1:delivery rdf:datatype="http://www.w3.org/2001/XMLSchema#int">14</domotics1:delivery>    
+	<domotics1:delivery rdf:datatype="http://www.w3.org/2001/XMLSchema#int">21</domotics1:delivery>	
+	<domotics1:delivery_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#int">21</domotics1:delivery_pref>
+	<domotics1:quantity rdf:datatype="http://www.w3.org/2001/XMLSchema#int">180000</domotics1:quantity>    
+	<domotics1:quantity rdf:datatype="http://www.w3.org/2001/XMLSchema#int">900000</domotics1:quantity>	
+	<domotics1:quantity_pref rdf:datatype="http://www.w3.org/2001/XMLSchema#int">270000</domotics1:quantity_pref>
+  </domotics1:Switch>
+</rdf:RDF>
+
+<!-- Created with Protege (with OWL Plugin 3.3.1, Build 430)  http://protege.stanford.edu -->

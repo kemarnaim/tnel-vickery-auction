@@ -1,0 +1,64 @@
+================================
+Electronic Business Technologies
+================================
+
+This document provides some basic directions to how you should use the Electronic Institution Platform to implement your project.
+
+
+-------------------
+Implementation Tips
+-------------------
+
+Creating an auctioneer
+----------------------
+
+* Extending class ei.service.negotiation.NegotiationFacilitator
+
+The method createResponderForNegotiateActionRequest(Agent agent, ACLMessage request, Negotiate negotiate) must be implemented to provide
+an appropriate behaviour (AuctionInit from now on) for handling a request to negotiate. The AuctionInit behaviour should reply to the
+request at the end of the negotiation protocol (auction), providing information about the outcome of the auction.
+
+* Implementing AuctionInit
+
+This behaviour will be responsible for implementing the initiator role for the auction, on the auctioneer side. A typical implementation will
+search the DF for potential buyers, and start the auction by sending an appropriate initial message.
+
+* Launching the agent
+
+Add the agent to your own ei-config.xml file, providing your class name, and specifying IS-negotiation-facilitator as the service it provides.
+This will automatically register the agent at the DF at startup.
+
+
+Creating a seller
+-----------------
+
+* Extending class ei.agent.ExternalAgent
+
+This agent should include an initiator role for the NEGOTIATE_ONTOLOGY, with the Negotiate action request. The agent will, at some specific
+point in time (e.g. when the user clicks a button), seek for auctioneers at the DF and request to an appropriate auctioneer the Negotiate action,
+providing the type of auction together with any auction parameters that are necessary.
+
+* Launching the agent
+
+Add the agent to your own ei-config.xml file, providing your class name, and specifying IR-enterprise-agent as the role it plays.
+This will automatically register the agent at the DF at startup (although you might want to register your agent in a more specific way, e.g. as a
+seller).
+
+
+Creating bidders
+----------------
+
+* Extending class ei.agent.ExternalAgent
+
+This agent should include a responder role for the auction to be implemented (AuctionResp), added at setup.
+
+* Implementing AuctionResp
+
+This behaviour will be responsible for implementing the responder role of the auction, on the bidder side.
+
+* Launching the agent
+
+Add the agent to your own ei-config.xml file, providing your class name, and specifying IR-enterprise-agent as the role it plays.
+This will automatically register the agent at the DF at startup (although you might want to register your agent in a more specific way, e.g. as a
+buyer).
+

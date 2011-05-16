@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ei-config SYSTEM "../../ei-config.dtd">
+<ei-config>
+	<jade-parameters>
+		<parameter>local-port=2010</parameter>
+	</jade-parameters>
+	
+	<institutional-agents>
+		<agent name="negmed">
+			<class>ei.service.negotiation.qfnegotiation.QFNegotiationMediator</class>
+			<argument>service=IS-negotiation-facilitator</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+		</agent>
+		<agent name="osa">
+			<class>ei.service.ontology.OntologyMapping</class>
+			<argument>service=IS-ontology-mapping</argument>
+			<argument>wordnet_host=127.0.0.1</argument>
+			<argument>wordnet_port=6180</argument>
+			<argument>wordnet_file=config\ontomap\WordNetSimilarity.dat</argument>
+		</agent>
+		<agent name="notary">
+			<class>ei.service.notary.Notary</class>
+			<argument>service=IS-notary</argument>
+			<argument>contract_dir=contracts</argument>
+			<argument>logging=false</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+		</agent>
+		<agent name="normenv">
+			<class>ei.service.normenv.NormativeEnvironment</class>
+			<argument>service=IS-normative-environment</argument>
+			<argument>jess_file=config\normenv\normenv_simple.bsave</argument>
+			<argument>logging=false</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+		</agent>
+		<agent name="ctr">
+			<class>ei.service.ctr.CTR</class>
+			<argument>service=IS-ctr</argument>
+		</agent>
+
+		<agent name="bank">
+			<class>ei.agent.role.BankAgent</class>
+			<argument>accounts_file=config\bank\accounts.xml</argument>
+		</agent>
+		<agent name="delivery-tracker">
+			<class>ei.agent.role.DeliveryTrackerAgent</class>
+		</agent>
+		<agent name="messenger">
+			<class>ei.agent.role.MessengerAgent</class>
+		</agent>
+<!--
+		<agent name="SingleProductRequestOnt1">
+			<class>ei.agent.enterpriseagent.StochasticAutomaticEnterpriseAgent</class>
+			<argument>good=config\scenarios\domotics\owl\RequestOnt1_single_product.owl</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+			<argument>failure_probability=1.0</argument>
+			<argument>logging=false</argument>
+		</agent>
+-->
+		<agent name="Request1Ont1">
+			<class>ei.agent.enterpriseagent.StochasticAutomaticEnterpriseAgent</class>
+			<argument>good=config\scenarios\domotics\owl\Request1Ont1.owl</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+			<argument>failure_probability=0.5</argument>
+		</agent>
+
+		<agent name="Supply1Ont1">
+			<class>ei.agent.enterpriseagent.StochasticAutomaticEnterpriseAgent</class>
+			<argument>components=config\scenarios\domotics\owl\Supply1Ont1.owl</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+			<argument>failure_probability=0.0</argument>
+			<argument>useQNegotiationStrategy=true</argument>
+		</agent>
+		<agent name="Supply2Ont1">
+			<class>ei.agent.enterpriseagent.AutomaticEnterpriseAgent</class>
+			<argument>components=config\scenarios\domotics\owl\Supply2Ont1.owl</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+			<argument>useQNegotiationStrategy=true</argument>
+		</agent>
+
+		<agent name="Supply3Ont1">
+			<class>ei.agent.enterpriseagent.AutomaticEnterpriseAgent</class>
+			<argument>components=config\scenarios\domotics\owl\Supply3Ont1.owl</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+			<argument>logging=false</argument>
+			<argument>useQNegotiationStrategy=true</argument>
+		</agent>
+		
+		<agent name="Supply4Ont2">
+			<class>ei.agent.enterpriseagent.AutomaticEnterpriseAgent</class>
+			<argument>components=config\scenarios\domotics\owl\Supply4Ont2.owl</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+			<argument>useOntoMapService=use_ontology_mapping</argument>	
+			<argument>useQNegotiationStrategy=true</argument>
+		</agent>
+
+		<agent name="Supply5Ont2">
+			<class>ei.agent.enterpriseagent.AutomaticEnterpriseAgent</class>
+			<argument>components=config\scenarios\domotics\owl\Supply5Ont2.owl</argument>
+			<argument>contract_xsd=contracts\contract.xsd</argument>
+			<argument>useOntoMapService=use_ontology_mapping</argument>	
+			<argument>useQNegotiationStrategy=true</argument>
+		</agent>
+	</institutional-agents>
+</ei-config>
