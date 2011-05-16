@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<!DOCTYPE rdf:RDF [
+<!ENTITY domotics1 "file:/C:/domotics1.owl#" >
+<!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+<!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+<!ENTITY owl2xml "http://www.w3.org/2006/12/owl2-xml#" >
+<!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+<!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+<!ENTITY O1 "http://www.semanticweb.org/ontologies/2010/9/O1.owl#" >
+]>
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2010/9/O1.owl#"
+xml:base="http://www.semanticweb.org/ontologies/2010/9/O1.owl"
+xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+xmlns:owl2xml="http://www.w3.org/2006/12/owl2-xml#"
+xmlns:owl="http://www.w3.org/2002/07/owl#"
+xmlns:domotics1="file:/C:/domotics1.owl#"
+xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:O1="http://www.semanticweb.org/ontologies/2010/9/O1.owl#">
+<owl:Ontology rdf:about=""/>
+
+
+<!--
+///////////////////////////////////////////////////////////////////////////////////////
+//
+// Data properties
+//
+///////////////////////////////////////////////////////////////////////////////////////
+-->
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#delivery -->
+
+<owl:DatatypeProperty rdf:about="#delivery"/>
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#delivery_pref -->
+<owl:DatatypeProperty rdf:about="#delivery_pref">
+<rdfs:subPropertyOf rdf:resource="#delivery"/>
+</owl:DatatypeProperty>
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#price -->
+
+<owl:DatatypeProperty rdf:about="#price"/>
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#price_pref -->
+
+<owl:DatatypeProperty rdf:about="#price_pref">
+<rdfs:subPropertyOf rdf:resource="#price"/>
+</owl:DatatypeProperty>
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#quantity -->
+
+<owl:DatatypeProperty rdf:about="#quantity"/>
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#quantity_pref -->
+
+<owl:DatatypeProperty rdf:about="#quantity_pref">
+<rdfs:subPropertyOf rdf:resource="#quantity"/>
+</owl:DatatypeProperty>
+
+<!--
+///////////////////////////////////////////////////////////////////////////////////////
+//
+// Classes
+//
+///////////////////////////////////////////////////////////////////////////////////////
+-->
+<!-- 
+//
+-->
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#Chiffon -->
+<owl:Class rdf:about="#Chiffon">
+<rdfs:subClassOf rdf:resource="#Textile"/>
+</owl:Class>
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#Cotton -->
+<owl:Class rdf:about="#Cotton">
+<rdfs:subClassOf rdf:resource="#Textile"/>
+</owl:Class>
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#Textile -->
+<owl:Class rdf:about="#Textile"/>
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#Voile -->
+<owl:Class rdf:about="#Voile">
+<rdfs:subClassOf rdf:resource="#Textile"/>
+</owl:Class>
+
+<!--
+///////////////////////////////////////////////////////////////////////////////////////
+//
+// Individuals
+//
+///////////////////////////////////////////////////////////////////////////////////////
+-->
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#chiffon -->
+<Chiffon rdf:about="#chiffon">
+<rdf:type rdf:resource="#Chiffon"/>
+<delivery rdf:datatype="&xsd;int">7</delivery>
+<delivery rdf:datatype="&xsd;int">31</delivery>
+<delivery_pref rdf:datatype="&xsd;int">22</delivery_pref>
+<price rdf:datatype="&xsd;float">1.0</price>
+<price rdf:datatype="&xsd;float">10.0</price>
+<price_pref rdf:datatype="&xsd;float">1.0</price_pref>
+<quantity rdf:datatype="&xsd;int">180000</quantity>
+<quantity rdf:datatype="&xsd;int">900000</quantity>
+<quantity_pref rdf:datatype="&xsd;int">450000</quantity_pref>
+</Chiffon>
+
+<!--
+///////////////////////////////////////////////////////////////////////////////////////
+//
+// Individuals
+//
+///////////////////////////////////////////////////////////////////////////////////////
+-->
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#cotton -->
+<Cotton rdf:about="#cotton">
+<rdf:type rdf:resource="#Cotton"/>
+<delivery rdf:datatype="&xsd;int">7</delivery>
+<delivery rdf:datatype="&xsd;int">31</delivery>
+<delivery_pref rdf:datatype="&xsd;int">31</delivery_pref>
+<price rdf:datatype="&xsd;float">1.0</price>
+<price rdf:datatype="&xsd;float">10.0</price>
+<price_pref rdf:datatype="&xsd;float">5.0</price_pref>
+<quantity rdf:datatype="&xsd;int">180000</quantity>
+<quantity rdf:datatype="&xsd;int">900000</quantity>
+<quantity_pref rdf:datatype="&xsd;int">630000</quantity_pref>
+</Cotton>
+
+<!--
+///////////////////////////////////////////////////////////////////////////////////////
+//
+// Individuals
+//
+///////////////////////////////////////////////////////////////////////////////////////
+-->
+
+<!-- http://www.semanticweb.org/ontologies/2010/9/O1.owl#voile -->
+<Voile rdf:about="#voile">
+<rdf:type rdf:resource="#Voile"/>
+<delivery rdf:datatype="&xsd;int">7</delivery>
+<delivery rdf:datatype="&xsd;int">31</delivery>
+<delivery_pref rdf:datatype="&xsd;int">13</delivery_pref>
+<price rdf:datatype="&xsd;float">1.0</price>
+<price rdf:datatype="&xsd;float">10.0</price>
+<price_pref rdf:datatype="&xsd;float">1.0</price_pref>
+<quantity rdf:datatype="&xsd;int">180000</quantity>
+<quantity rdf:datatype="&xsd;int">900000</quantity>
+<quantity_pref rdf:datatype="&xsd;int">180000</quantity_pref>
+</Voile>
+
+</rdf:RDF>
