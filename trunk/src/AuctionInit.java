@@ -7,6 +7,9 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.proto.ContractNetInitiator;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Vector;
 
 public class AuctionInit extends ContractNetInitiator {
@@ -45,19 +48,22 @@ public class AuctionInit extends ContractNetInitiator {
 	//This method is called when all the responses have been collected or when the timeout is expired.
 	@Override
 	protected void handleAllResponses(Vector responses, Vector acceptances) 
-	{
+	{		
+		int result = 0;
 		if(responses.size() < 2){
 			//failure
 		} else {
+			
 			for (int i = 0; i < responses.size(); i++)
 			{
-				responses.get(i);
-				if (responses.get(i))
+				if (((ACLMessage)responses.get(i)).getPerformative() == ACLMessage.ACCEPT_PROPOSAL)
 				{
-					
+					acceptances.add((ACLMessage)responses.get(i));
 				}
 			}
 		}
+		Comparator c = new Comparator();
+		Collections.sort(acceptances, );
 	}
 	
 	
