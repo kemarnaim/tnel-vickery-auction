@@ -237,7 +237,15 @@
 <argument>time_to_denounce=4000</argument>
 <argument>risk_tolerance=0.8</argument>
 </agent>
--->
+--><agent name="Seller">
+		<class>VickerySeller</class>
+</agent>
+	<agent name="Auctioneer">
+		<class>VickeryAuctioneer</class>
+	</agent>
+	<agent name="Bidder">
+		<class>VickeryBidder</class>
+	</agent>
 
 </institutional-agents>
 </ei-config>
