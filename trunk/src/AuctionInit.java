@@ -62,8 +62,27 @@ public class AuctionInit extends ContractNetInitiator {
 				}
 			}
 		}
-		Comparator c = new Comparator();
-		Collections.sort(acceptances, );
+		// create the comparator for the messages 
+		Comparator<ACLMessage> c = new Comparator<ACLMessage>() { @Override
+		public int compare(ACLMessage o1, ACLMessage o2) {
+
+			int first = Integer.parseInt(o1.getContent());
+			int second = Integer.parseInt(o2.getContent());
+			
+			if ( first == second ){
+				return 0;
+			}
+			else if (first < second){
+				return -1;
+			}
+			return 1;
+		}
+		};
+		sortMessages(acceptances, c); // sort the messages 
+	}
+
+	private void sortMessages (Vector<ACLMessage> acceptances, Comparator<ACLMessage> c) {
+		Collections.sort(acceptances, c);
 	}
 	
 	
