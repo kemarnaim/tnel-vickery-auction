@@ -14,6 +14,7 @@ import java.util.Vector;
 
 public class AuctionInit extends ContractNetInitiator {
 	private ACLMessage request;
+	private Agent winner;
 
 
 	public AuctionInit(Agent a, ACLMessage request, Negotiate negotiate) {
@@ -46,6 +47,8 @@ public class AuctionInit extends ContractNetInitiator {
 		return result;
 	}
 	//This method is called when all the responses have been collected or when the timeout is expired.
+	//for each round!???????
+	
 	@Override
 	protected void handleAllResponses(Vector responses, Vector acceptances) 
 	{		
@@ -56,8 +59,10 @@ public class AuctionInit extends ContractNetInitiator {
 			
 			for (int i = 0; i < responses.size(); i++)
 			{
-				if (((ACLMessage)responses.get(i)).getPerformative() == ACLMessage.ACCEPT_PROPOSAL)
+				//check if the bidders propose
+				if (((ACLMessage)responses.get(i)).getPerformative() == ACLMessage.PROPOSE )
 				{
+					//put them in acceptances
 					acceptances.add((ACLMessage)responses.get(i));
 				}
 			}
@@ -79,6 +84,16 @@ public class AuctionInit extends ContractNetInitiator {
 		}
 		};
 		sortMessages(acceptances, c); // sort the messages 
+		
+		for (int i = 0; i < acceptances.size(); i++)
+		{
+			//check if the bidders propose
+			if (((ACLMessage)responses.get(i)).getPerformative() == ACLMessage.PROPOSE )
+			{
+				//put them in acceptances
+				acceptances.add((ACLMessage)responses.get(i));
+			}
+		}
 	}
 
 	private void sortMessages (Vector<ACLMessage> acceptances, Comparator<ACLMessage> c) {
