@@ -14,10 +14,22 @@
 <agent name="Bidder1">
 	<class>Bidder</class> 
 	<argument>role=IR-enterprise-agent</argument>
+	<argument>bid=1000</argument>
 </agent>
 <agent name="Bidder2">
 	<class>Bidder</class> 
 	<argument>role=IR-enterprise-agent</argument>
+	<argument>bid=2000</argument>
+</agent>
+<agent name="Bidder3">
+	<class>Bidder</class> 
+	<argument>role=IR-enterprise-agent</argument>
+	<argument>bid=3000</argument>
+</agent>
+<agent name="Bidder4">
+	<class>Bidder</class> 
+	<argument>role=IR-enterprise-agent</argument>
+	<argument>bid=4000</argument>
 </agent>
 <agent name="Auctioneer">
 		<class>VickreyNegotiationFacilitator</class>
