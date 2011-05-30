@@ -8,6 +8,7 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.proto.ContractNetInitiator;
 
+import java.lang.reflect.Array;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
@@ -31,15 +32,15 @@ public class AuctionInit extends ContractNetInitiator {
 	Programmers might prefer to override this method in order to return a vector of CFP objects 
 	for 1:N conversations or also to prepare the messages during the execution of the behaviour. 
 	 */
-	//  for the bidders
+	//  send CFPs to the bidders
 	protected Vector<ACLMessage> prepareCfps(ACLMessage cfp)
 	{
 		// look for the bideers in the DF
-		DFAgentDescription[] template = searchDF(cfp);
+		DFAgentDescription[] template = searchForBidders(cfp);
 		// prepare request
-		
 		Vector<ACLMessage> result = new Vector<ACLMessage>(); // prep result vector
-		cfp.setContent("Do you want to buy a car?");
+		cfp.setContent("Offer: " + request.getContent());
+		
 		for (int i = 0; i < template.length; i++)
 		{
 			cfp.addReceiver(template[i].getName());
@@ -52,9 +53,9 @@ public class AuctionInit extends ContractNetInitiator {
 	@Override
 	protected void handleAllResponses(Vector responses, Vector acceptances) 
 	{		
-		int result = 0;
-		if(responses.size() < 2){ // the bideers must be more than 1
-			// failure
+		//int result = 0;
+		if(responses.size() < 2) { // the bideers must be more than 1
+			// failure - cannot continue with the auction
 			return;
 		} else {
 			
@@ -63,8 +64,9 @@ public class AuctionInit extends ContractNetInitiator {
 				//check if the bidders propose
 				if (((ACLMessage)responses.get(i)).getPerformative() == ACLMessage.PROPOSE )
 				{
-					//put them in acceptances
+					//put them in acceptances - in order everyone to receive the message
 					acceptances.add((ACLMessage)responses.get(i));
+					System.out.println("We have");
 				}
 			}
 		}
@@ -112,18 +114,35 @@ public class AuctionInit extends ContractNetInitiator {
 	 * @param request
 	 * @return
 	 */
-	private DFAgentDescription[] searchDF(ACLMessage request) {
+	private DFAgentDescription[] searchForBidders(ACLMessage request) {
 		DFAgentDescription template = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
-		sd.setType("Bidder");
+		sd.setType("IR-enterprise-agent");
 		template.addServices(sd);
 		DFAgentDescription[] results = null;
 		
 		try {
 			results = DFService.search(myAgent, template);
 			
+			/////////////// remove the SELLER  - THE BAD WAY  /////////////
+			/*Vector<DFAgentDescription> v = new Vector<DFAgentDescription>();
+			for (int i = 0 ; i < results.length; i++)
+			{
+				v.add(results[i]);
+			}
+			for (int i = 0; i < v.size(); i++)
+			{
+				if (v.get(i).getName().getName().equals("Seller")) {
+					v.remove(i);
+					break;
+				}
+			}
+			results = (DFAgentDescription[]) v.toArray(); */
+			
+			
 		} catch(FIPAException fe){
 			fe.printStackTrace();
+			System.err.println("AuctionInit.searchForBidders() : "+ fe.getMessage());
 		}
 		
 		return results;

@@ -43,21 +43,14 @@ public class VickreyNegotiationFacilitator extends ei.service.negotiation.Negoti
 	@Override
 	protected Behaviour createResponderForNegotiateActionRequest(Agent agent, ACLMessage request, Negotiate negotiate) {
 		
-		System.out.println("Auctioneer received a message!");
+		System.out.println("Auctioneer received a message from: " + request.getSender().getName());
 		if (request.getPerformative() == ACLMessage.REQUEST)
 		{
-			System.out.println("Auctioneer received a request.");
+			System.out.println("Auctioneer received a request from: " + request.getSender().getName());
 			return new AuctionInit(agent, request, negotiate);
 		}
 
-		// proposes form bidders
-		if (request.getPerformative() == ACLMessage.PROPOSE)
-		{
-			MessageTemplate mt = new MessageTemplate(null);
-			return null; //new BidderBehaviour(agent, mt); //TODO probably a big mistake
-		}
 		return null;
-		
 	}
 
 	@Override
