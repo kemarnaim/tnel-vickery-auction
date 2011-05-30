@@ -31,9 +31,10 @@ public class AuctionInit extends ContractNetInitiator {
 	Programmers might prefer to override this method in order to return a vector of CFP objects 
 	for 1:N conversations or also to prepare the messages during the execution of the behaviour. 
 	 */
+	//  for the bidders
 	protected Vector<ACLMessage> prepareCfps(ACLMessage cfp)
 	{
-		// get the description of the Auctioneer
+		// look for the bideers in the DF
 		DFAgentDescription[] template = searchDF(cfp);
 		// prepare request
 		
@@ -52,8 +53,9 @@ public class AuctionInit extends ContractNetInitiator {
 	protected void handleAllResponses(Vector responses, Vector acceptances) 
 	{		
 		int result = 0;
-		if(responses.size() < 2){
-			//failure
+		if(responses.size() < 2){ // the bideers must be more than 1
+			// failure
+			return;
 		} else {
 			
 			for (int i = 0; i < responses.size(); i++)
@@ -105,7 +107,11 @@ public class AuctionInit extends ContractNetInitiator {
 	}
 	
 	
-	
+	/**
+	 * Help method to search in the DF 
+	 * @param request
+	 * @return
+	 */
 	private DFAgentDescription[] searchDF(ACLMessage request) {
 		DFAgentDescription template = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
