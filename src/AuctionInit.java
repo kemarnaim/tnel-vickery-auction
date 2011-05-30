@@ -14,7 +14,7 @@ import java.util.Vector;
 
 public class AuctionInit extends ContractNetInitiator {
 	private ACLMessage request;
-	private Agent winner;
+
 
 
 	public AuctionInit(Agent a, ACLMessage request, Negotiate negotiate) {
@@ -47,7 +47,6 @@ public class AuctionInit extends ContractNetInitiator {
 		return result;
 	}
 	//This method is called when all the responses have been collected or when the timeout is expired.
-	//for each round!???????
 	
 	@Override
 	protected void handleAllResponses(Vector responses, Vector acceptances) 
@@ -68,32 +67,37 @@ public class AuctionInit extends ContractNetInitiator {
 			}
 		}
 		// create the comparator for the messages 
-		Comparator<ACLMessage> c = new Comparator<ACLMessage>() { @Override
-		public int compare(ACLMessage o1, ACLMessage o2) {
-
-			int first = Integer.parseInt(o1.getContent());
-			int second = Integer.parseInt(o2.getContent());
-			
-			if ( first == second ){
-				return 0;
+		Comparator<ACLMessage> c = new Comparator<ACLMessage>() { 
+			@Override
+			public int compare(ACLMessage o1, ACLMessage o2) {
+	
+				int first = Integer.parseInt(o1.getContent());
+				int second = Integer.parseInt(o2.getContent());
+				
+				if ( first == second ){
+					return 0;
+				}
+				else if (first < second){
+					return -1;
+				}
+				return 1;
 			}
-			else if (first < second){
-				return -1;
-			}
-			return 1;
-		}
 		};
-		sortMessages(acceptances, c); // sort the messages 
 		
-		for (int i = 0; i < acceptances.size(); i++)
+		sortMessages(acceptances, c); // sort the messages 
+		 
+		// heeey losers 
+		for (int i = 1; i < acceptances.size(); i++) 
 		{
-			//check if the bidders propose
-			if (((ACLMessage)responses.get(i)).getPerformative() == ACLMessage.PROPOSE )
-			{
-				//put them in acceptances
-				acceptances.add((ACLMessage)responses.get(i));
-			}
+			((ACLMessage)acceptances.get(i)).setPerformative(ACLMessage.REJECT_PROPOSAL);
 		}
+		
+		/// heeeey winner!!
+		//edit the message for the winner
+		((ACLMessage)acceptances.get(0)).setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+		// the winner pays the proposal of the second highest bidder
+		((ACLMessage)acceptances.get(0)).setContent(((ACLMessage)acceptances.get(1)).getContent());
+		
 	}
 
 	private void sortMessages (Vector<ACLMessage> acceptances, Comparator<ACLMessage> c) {
@@ -119,10 +123,13 @@ public class AuctionInit extends ContractNetInitiator {
 		return results;
 	}
 
+
+	
 	public int onEnd()
 	{
+		// send to the seller. request was firstly sent by him
 		ACLMessage reply = request.createReply();
-		reply.setContent("the winer is:");
+		reply.setContent("the winner is:");
 		reply.setPerformative(ACLMessage.INFORM); // depending if it is failure or ...
 		myAgent.send(reply);
 		
