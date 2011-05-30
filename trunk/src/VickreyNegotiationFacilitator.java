@@ -9,15 +9,27 @@ import jade.domain.FIPAException;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import ei.EIAgent;
 import ei.onto.negotiation.Negotiate;
+import ei.onto.normenv.report.NewContract.Frame;
 import ei.service.negotiation.NegotiationFacilitator;
 import ei.*;
 
-
+  
 public class VickreyNegotiationFacilitator extends ei.service.negotiation.NegotiationFacilitator {
 
+	
 	@Override
+	public void setup()
+	{
+		super.setup();
+		//ServiceDescription sd = new ServiceDescription();
+		//sd.setName("Auctioneer");
+		//sd.setType("Auctioneer");
+		//super.regService(sd);
+	}
+	
 	/**
 	 * This method should return a behaviour capable of handling a negotiate action request.
 	 * In particular, such a behaviour should answer appropriately to that request.
@@ -28,67 +40,40 @@ public class VickreyNegotiationFacilitator extends ei.service.negotiation.Negoti
 	 * @param negotiate
 	 * @return
 	 */
-	protected Behaviour createResponderForNegotiateActionRequest(Agent agent,
-			ACLMessage request, Negotiate negotiate) {
+	@Override
+	protected Behaviour createResponderForNegotiateActionRequest(Agent agent, ACLMessage request, Negotiate negotiate) {
 		
 		// The AuctionInit behaviour should reply to the
 		// request at the end of the negotiation protocol (auction), 
 		// providing information about the outcome of the auction.
-		Behaviour AuctionInit = new AuctionInit(agent, request, negotiate);
 		
+		// check what is the requeset performative
 		
-		// PUT ALL THIS CODE IN AUCTIONINIT.JAVA on prepareCFP
+		// check if it is a request from a seller
 		
-		
-		// Searchs in DF for potential buyers
-		DFAgentDescription[] results = searchDF(request, negotiate);
-		// Sends everyone the request
-		ACLMessage msg = new ACLMessage(ACLMessage.CFP);
-		
-		//for
-		msg.addReceiver(results[1].getName());
+		//System.out.println(request.getContent() + " " + request.getPerformative());
+		System.out.println("here");
+		if (request.getPerformative() == ACLMessage.REQUEST)
+		{
+			System.out.println("request found");
+			return new AuctionInit(agent, request, negotiate);
+		}
 
-	
-		
-		
-		
-		
-		// if true:
-			// create the behaviour for the vickery auction
-		
-		// if not
-			// sends failure
-		ACLMessage response = request.createReply();
-		response.setPerformative(ACLMessage.FAILURE);
-		send(response);
+		// proposes form bidders
+		if (request.getPerformative() == ACLMessage.PROPOSE)
+		{
+			MessageTemplate mt = new MessageTemplate(null);
+			return new VickreyResp(agent, mt);
+		}
 		return null;
 		
 	}
 
-	
-	
-	
-	private DFAgentDescription[] searchDF(ACLMessage request,
-			Negotiate negotiate) {
-		DFAgentDescription template = new DFAgentDescription();
-		ServiceDescription sd = new ServiceDescription();
-		sd.setType("Vickery");
-		template.addServices(sd);
-		DFAgentDescription[] results = null;
-		
-		try {
-			results = DFService.search(this, template);
-			
-		} catch(FIPAException fe){
-			fe.printStackTrace();
-		}
-		
-		return results;
-	}
-
 	@Override
 	protected boolean createGUI() {
-		// TODO Auto-generated method stub
+
+		new ei.agent.gui.MessagesGUI(this);
+		
 		return false;
 	}
 
