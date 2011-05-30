@@ -13,4 +13,8 @@
 
 ===Communication===
 
-|| 
+|| *NUM* || *SENDER* || *RECEIVER* || *MESSAGE*  ||
+|| 1.  || Bidder1    || DF         || _register_ ||
+|| 2.  || Bidder2    || DF         || _register_ ||
+|| 3.  || Auctioneer || DF         || _register_ ||
+|| 4.  || Seller     || DF         || _register_ ||
