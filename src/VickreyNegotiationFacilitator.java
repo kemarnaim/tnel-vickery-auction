@@ -43,19 +43,10 @@ public class VickreyNegotiationFacilitator extends ei.service.negotiation.Negoti
 	@Override
 	protected Behaviour createResponderForNegotiateActionRequest(Agent agent, ACLMessage request, Negotiate negotiate) {
 		
-		// The AuctionInit behaviour should reply to the
-		// request at the end of the negotiation protocol (auction), 
-		// providing information about the outcome of the auction.
-		
-		// check what is the requeset performative
-		
-		// check if it is a request from a seller
-		
-		//System.out.println(request.getContent() + " " + request.getPerformative());
-		System.out.println("here");
+		System.out.println("Auctioneer received a message!");
 		if (request.getPerformative() == ACLMessage.REQUEST)
 		{
-			System.out.println("request found");
+			System.out.println("Auctioneer received a request.");
 			return new AuctionInit(agent, request, negotiate);
 		}
 
@@ -63,7 +54,7 @@ public class VickreyNegotiationFacilitator extends ei.service.negotiation.Negoti
 		if (request.getPerformative() == ACLMessage.PROPOSE)
 		{
 			MessageTemplate mt = new MessageTemplate(null);
-			return new VickreyResp(agent, mt);
+			return null; //new BidderBehaviour(agent, mt); //TODO probably a big mistake
 		}
 		return null;
 		

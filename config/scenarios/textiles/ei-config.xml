@@ -11,8 +11,12 @@
 <class>jade.tools.rma.rma</class>
 </agent>
 
-<agent name="Bidder">
-	<class>VickreyBidder</class> 
+<agent name="Bidder1">
+	<class>Bidder</class> 
+	<argument>role=IR-enterprise-agent</argument>
+</agent>
+<agent name="Bidder2">
+	<class>Bidder</class> 
 	<argument>role=IR-enterprise-agent</argument>
 </agent>
 <agent name="Auctioneer">
@@ -20,11 +24,11 @@
 		<argument>service=IS-negotiation-facilitator</argument>
 </agent>
 
-<agent name="Seller">
-		<class>VickreySeller</class>
-		<argument>role=IR-enterprise-agent</argument>
+<!-- <agent name="Seller"> -->
+<!-- 		<class>Seller</class> -->
+<!-- 		<argument>role=IR-enterprise-agent</argument> -->
 		
-</agent>
+<!-- </agent> -->
 
 </institutional-agents>
 </ei-config>
