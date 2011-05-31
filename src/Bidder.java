@@ -10,11 +10,16 @@ import jade.proto.ContractNetResponder;
 
 public class Bidder extends ei.agent.ExternalAgent /*implements AuctionResp */{ 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -735395289557243350L;
+
 	public void setup(){
 		super.setup();
 		
 		ServiceDescription sd = new ServiceDescription();
-		sd.setName(getLocalName());
+		sd.setName("Bidder");
 		sd.setType((String) arguments.get("role"));
 		
 		Vector<ServiceDescription> sds = new Vector<ServiceDescription>();
@@ -26,7 +31,6 @@ public class Bidder extends ei.agent.ExternalAgent /*implements AuctionResp */{
 		addBehaviour(new BidderBehaviour(this, MessageTemplate.MatchPerformative(ACLMessage.CFP)));
 
 	}
-
 	
 	@Override
 	protected boolean createGUI() {
@@ -59,7 +63,8 @@ public class Bidder extends ei.agent.ExternalAgent /*implements AuctionResp */{
 			
 			// TODO set the bid in the message
 			reply.setContent((String)arguments.get("bid")); // get the bid from the arguments in conf file
-			System.out.println("sent a bid to the auctioneer");
+			
+			System.out.println(getLocalName() + ": bidded " + reply.getContent());
 			return reply;
 		
 		}
@@ -67,11 +72,12 @@ public class Bidder extends ei.agent.ExternalAgent /*implements AuctionResp */{
 		@Override
 		protected ACLMessage handleAcceptProposal(ACLMessage cfp, ACLMessage propose, ACLMessage accept) throws FailureException
 	     {
-			accept.setContent(" Thank you!" );
+			accept.setContent(getLocalName() + ": You WIN!!" );
+			ACLMessage reply = accept.createReply();
+			reply.setPerformative(ACLMessage.INFORM);
 			
-			//TODO ask teacher here
-			
-			return accept;
+			System.out.println(getLocalName() + ": You WIN!!");			
+			return reply;
 	     
 	     }
 		
@@ -79,7 +85,9 @@ public class Bidder extends ei.agent.ExternalAgent /*implements AuctionResp */{
 		@Override
 		protected void handleRejectProposal(ACLMessage cfp, ACLMessage propose, ACLMessage reject)
 	     {
-			System.out.println("You lose!");
+			cfp.setContent(getLocalName() + ": You Lose!" );
+			
+			System.out.println(getLocalName() + ": You lose!");
 	     }
 	}
  
