@@ -1,4 +1,5 @@
 
+import ei.agent.enterpriseagent.ontology.Good;
 import ei.onto.negotiation.Negotiate;
 import jade.core.Agent;
 import jade.domain.DFService;
@@ -8,19 +9,24 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
 import jade.proto.ContractNetInitiator;
 
-import java.lang.reflect.Array;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
 
 public class AuctionInit extends ContractNetInitiator {
-	private ACLMessage request;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4525714406937616488L;
 
+	private ACLMessage request;
+	private Negotiate neg;
 
 
 	public AuctionInit(Agent a, ACLMessage request, Negotiate negotiate) {
 		super(a, new ACLMessage(ACLMessage.CFP));
-		
+		this.neg = negotiate;
 		this.request = request;
 	}
 	
@@ -35,11 +41,21 @@ public class AuctionInit extends ContractNetInitiator {
 	//  send CFPs to the bidders
 	protected Vector<ACLMessage> prepareCfps(ACLMessage cfp)
 	{
-		// look for the bideers in the DF
+		// look for the bidders in the DF
 		DFAgentDescription[] template = searchForBidders(cfp);
 		// prepare request
 		Vector<ACLMessage> result = new Vector<ACLMessage>(); // prep result vector
-		cfp.setContent("Offer: " + request.getContent());
+		
+		Good theGood = neg.getGood();
+		cfp.setContent("Offer is");
+		try {
+			cfp.setContentObject(theGood);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println("Offer:" + request.getContent() + "by" + request.getSender());
 		
 		for (int i = 0; i < template.length; i++)
 		{
@@ -50,13 +66,14 @@ public class AuctionInit extends ContractNetInitiator {
 	}
 	//This method is called when all the responses have been collected or when the timeout is expired.
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
 	protected void handleAllResponses(Vector responses, Vector acceptances) 
 	{		
 		//int result = 0;
 		if(responses.size() < 2) { // the bideers must be more than 1
 			// failure - cannot continue with the auction
-			return;
+			//return;
 		} else {
 			
 			for (int i = 0; i < responses.size(); i++)
@@ -65,8 +82,9 @@ public class AuctionInit extends ContractNetInitiator {
 				if (((ACLMessage)responses.get(i)).getPerformative() == ACLMessage.PROPOSE )
 				{
 					//put them in acceptances - in order everyone to receive the message
-					acceptances.add((ACLMessage)responses.get(i));
-					System.out.println("We have");
+					acceptances.add(((ACLMessage)responses.get(i)).createReply());
+					((ACLMessage) acceptances.get(i)).setContent(((ACLMessage)responses.get(i)).getContent());
+					System.out.println("accepted: " + ((ACLMessage) acceptances.get(i)).getContent());
 				}
 			}
 		}
@@ -90,24 +108,29 @@ public class AuctionInit extends ContractNetInitiator {
 		
 		sortMessages(acceptances, c); // sort the messages 
 		 
+		System.out.println("print the sorted bids");
+		for(int i = 0; i < acceptances.size(); i++)
+		{
+			System.out.println("bid"+ i + ": " + ((ACLMessage)acceptances.get(i)).getContent());
+		}
+		
 		// heeey losers 
-		for (int i = 1; i < acceptances.size(); i++) 
+		// set performative as REJECT_PROPOSAL except for the last one (he/she's the winner
+		for (int i = 0; i < acceptances.size() - 1; i++) 
 		{
 			((ACLMessage)acceptances.get(i)).setPerformative(ACLMessage.REJECT_PROPOSAL);
 		}
 		
 		/// heeeey winner!!
 		//edit the message for the winner
-		((ACLMessage)acceptances.get(0)).setPerformative(ACLMessage.ACCEPT_PROPOSAL);
+		((ACLMessage)acceptances.get(acceptances.size() - 1)).setPerformative(ACLMessage.ACCEPT_PROPOSAL);
 		// the winner pays the proposal of the second highest bidder
-		((ACLMessage)acceptances.get(0)).setContent(((ACLMessage)acceptances.get(1)).getContent());
-		
+		((ACLMessage)acceptances.get(acceptances.size() - 1)).setContent("You have to pay: " + ((ACLMessage)acceptances.get(acceptances.size() - 2)).getContent());
 	}
 
 	private void sortMessages (Vector<ACLMessage> acceptances, Comparator<ACLMessage> c) {
 		Collections.sort(acceptances, c);
 	}
-	
 	
 	/**
 	 * Help method to search in the DF 
@@ -118,38 +141,23 @@ public class AuctionInit extends ContractNetInitiator {
 		DFAgentDescription template = new DFAgentDescription();
 		ServiceDescription sd = new ServiceDescription();
 		sd.setType("IR-enterprise-agent");
+		sd.setName("Bidder");
 		template.addServices(sd);
 		DFAgentDescription[] results = null;
 		
 		try {
 			results = DFService.search(myAgent, template);
 			
-			/////////////// remove the SELLER  - THE BAD WAY  /////////////
-			/*Vector<DFAgentDescription> v = new Vector<DFAgentDescription>();
-			for (int i = 0 ; i < results.length; i++)
-			{
-				v.add(results[i]);
-			}
-			for (int i = 0; i < v.size(); i++)
-			{
-				if (v.get(i).getName().getName().equals("Seller")) {
-					v.remove(i);
-					break;
-				}
-			}
-			results = (DFAgentDescription[]) v.toArray(); */
-			
-			
 		} catch(FIPAException fe){
 			fe.printStackTrace();
-			System.err.println("AuctionInit.searchForBidders() : "+ fe.getMessage());
+			System.err.println("AuctionInit.searchForBidders() : " + fe.getMessage());
 		}
 		
 		return results;
 	}
 
 
-	
+	@Override
 	public int onEnd()
 	{
 		// send to the seller. request was firstly sent by him

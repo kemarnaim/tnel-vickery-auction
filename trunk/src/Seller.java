@@ -1,27 +1,21 @@
+import java.awt.Button;
+import java.awt.Frame;
 import java.util.Vector;
 
 import ei.ElectronicInstitution;
-import ei.agent.enterpriseagent.EnterpriseAgent;
 import ei.agent.enterpriseagent.gui.EnterpriseAgentGUI;
 import ei.agent.enterpriseagent.ontology.Good;
 import ei.agent.gui.MsgViewerGUI;
 import ei.onto.negotiation.Negotiate;
-import ei.service.ctr.OutcomeGenerator;
-import ei.service.ctr.OutcomeGenerator.MappingMethod;
 import ei.service.negotiation.qfnegotiation.NegotiationOutcome;
 import jade.content.lang.Codec;
-import jade.content.onto.Ontology;
 import jade.content.onto.OntologyException;
 import jade.content.onto.basic.Action;
 import jade.core.AID;
 import jade.core.Agent;
-import jade.domain.DFService;
-import jade.domain.FIPAException;
 import jade.domain.FIPANames;
-import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.lang.acl.ACLMessage;
-import jade.lang.acl.MessageTemplate;
 import jade.lang.acl.UnreadableException;
 import jade.proto.AchieveREInitiator;
  
@@ -29,7 +23,7 @@ import jade.proto.AchieveREInitiator;
 @SuppressWarnings("serial")
 public class Seller extends ei.agent.ExternalAgent {
 	/**
-	 * Registering Vickrey Seller on DF
+	 * Registering Vickrey Seller
 	 */
 	public void setup(){
 		super.setup();
@@ -37,11 +31,11 @@ public class Seller extends ei.agent.ExternalAgent {
 		ServiceDescription sd = new ServiceDescription();
 		sd.setName(getLocalName());
 		sd.setType((String) arguments.get("role"));
-		
 		Vector<ServiceDescription> sds = new Vector<ServiceDescription>();
 		sds.add(sd);
 		super.regServices(sds); // register the service
-		// register the ontology in the DF
+		
+		 //register the ontology in the DF
 		getContentManager().registerOntology(ei.onto.negotiation.NegotiationOntology.getInstance());
 
 		addBehaviour(new NegotiationInit_Negotiate(this, new AID("Auctioneer", false)));
@@ -67,10 +61,13 @@ public class Seller extends ei.agent.ExternalAgent {
 	
 	@Override
 	protected boolean createGUI() {
-		// on click button
-		// create a request and 
 
-		return false;
+		this.gui = new Frame();
+		Button btt = new Button("bla");
+		gui.add(btt);
+	
+
+		return true;
 	}
 	
 	// seller's behaviour; the type of behaviour expected from the auctioneer
@@ -81,6 +78,7 @@ public class Seller extends ei.agent.ExternalAgent {
 		protected boolean inSynchronizedExperiment = false;
 		private String contractType = "Vickrey Auction";
 
+		@SuppressWarnings("unused")
 		private NegotiationOutcome negotiationOutcome; //  TODO the result for the Seller (see the winner)
 
 		public NegotiationInit_Negotiate(Agent ag, AID negotiationMediatorAID) {
